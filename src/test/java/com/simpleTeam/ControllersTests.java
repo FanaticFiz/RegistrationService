@@ -1,4 +1,4 @@
-package com.simpleTeam;
+package com.simpleteam;
 
 import org.junit.Before;
 import org.junit.Test;
