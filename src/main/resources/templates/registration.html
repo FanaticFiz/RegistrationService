@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <object th:replace="fragments/head :: head" th:remove="tag"></object>
+    </head>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#signup").click( function() {
+                alert("Hi there...");
+            });
+        });
+    </script>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="twelve column">
+                    <input class="button-primary u-pull-right" id="signup" type="button" value="Sign up"/>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
