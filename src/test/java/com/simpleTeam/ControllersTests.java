@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -33,6 +34,15 @@ public class ControllersTests {
     }
 
     @Test
+    public void registrationRedirectTest() throws Exception {
+        this.mockMvc
+                .perform(get("/")
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/registration"));
+    }
+
+    @Test
     public void registrationGetTest() throws Exception {
         this.mockMvc
                 .perform(get("/registration")
@@ -42,12 +52,32 @@ public class ControllersTests {
     }
 
     @Test
-    public void registrationRedirectTest() throws Exception {
+    public void registrationPostCorrectDataTest() throws Exception {
         this.mockMvc
-                .perform(get("/")
+                .perform(post("/registration")
+                        .param("email", "some@gmail.com")
+                        .param("password", "pa!ss2wo2rd")
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("registration"));
+    }
+
+    @Test
+    public void successGetTest() throws Exception {
+        this.mockMvc
+                .perform(get("/success")
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("success"));
+    }
+
+    @Test
+    public void confirmGetTest() throws Exception {
+        this.mockMvc
+                .perform(get("/confirm/{code}", "asdfalksdjfh")
                         .accept(MediaType.TEXT_HTML))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/registration"));
+                .andExpect(view().name("redirect:/success"));
     }
 
 }

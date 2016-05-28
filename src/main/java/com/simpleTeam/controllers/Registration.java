@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- * Photo controller.
+ * Registration controller.
  * Also redirect '/' to photo...
  *
  * @author Fiz
