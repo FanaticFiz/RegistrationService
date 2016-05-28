@@ -5,18 +5,35 @@
     </head>
     <script type="text/javascript">
         $(document).ready(function(){
+            $("#regForm").hide();
+
             $("#signup").click( function() {
-                alert("Hi there...");
+                $("#regForm").show();
+                $("#signUpButton").hide();
             });
         });
     </script>
 
     <body>
         <div class="container">
-            <div class="row">
-                <div class="twelve column">
+            <div class="row" th:if="${successRegistered == 0}">
+                <div class="twelve column" id="signUpButton">
                     <input class="button-primary u-pull-right" id="signup" type="button" value="Sign up"/>
                 </div>
+                <form class="twelve column" id="regForm" action="/registration" method="POST">
+                    <h2 style="text-align: center; padding-top: 50px">Registration</h2>
+                    <div class="six columns offset-by-three">
+                        <label for="EmailInput">Your email:</label>
+                        <input class="u-full-width" type="email" placeholder="test@gmail.com" id="EmailInput" required="true" name="email"/>
+                        <label for="PassInput">Password:</label>
+                        <input class="u-full-width" type="password" required="true" placeholder="test@gmail.com" id="PassInput" name="password"/>
+                        <input class="button-primary u-full-width" type="submit" value="Create my account"/>
+                    </div>
+                </form>
+            </div>
+            <div th:if="${successRegistered == 1}" style="text-align: center; padding-top: 200px">
+                <span><i class="fa fa-hand-peace-o fa-5x" aria-hidden="true"></i></span>
+                <h3>Success! Check your eMail !</h3>
             </div>
         </div>
     </body>

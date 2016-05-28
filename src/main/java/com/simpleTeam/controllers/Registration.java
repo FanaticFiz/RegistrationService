@@ -29,7 +29,7 @@ public class Registration {
      */
     @RequestMapping("/")
     public final String home() {
-        log.debug("redirect to '/photo' ");
+        log.info("redirect to '/photo' ");
 
         return "redirect:/registration";
     }
@@ -42,8 +42,9 @@ public class Registration {
      */
     @RequestMapping(value = "/registration")
     public final String registration(final Model model) {
-        log.debug("RequestMethod GET");
+        log.info("RequestMethod GET");
 
+        model.addAttribute("successRegistered", 0);
         return "registration";
     }
 
@@ -51,17 +52,20 @@ public class Registration {
      * Catches POST request to '/registration'.
      *
      * @param model Map for add attributes
-     * @param path  way to directory
+     * @param email email
+     * @param pass password
      * @param redirectAttr for send attribute to another page
      * @return String for ViewResolver, for find specific view.
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public final String photoHandler(final Model model, final RedirectAttributes redirectAttr,
-                                     @RequestParam("photoDir") final String path) {
-        log.debug("RequestMethod POST. Value: " + path);
+                                     @RequestParam("email") final String email,
+                                     @RequestParam("password") final String pass) {
+        log.info("RequestMethod POST. Email: " + email);
+        log.info("Pass: " + pass);
 
-        model.addAttribute("showPhoto", 1);
-        return "photo";
+        model.addAttribute("successRegistered", 1);
+        return "registration";
     }
 
 }
