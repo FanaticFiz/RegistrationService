@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Registration service.
  *
- * This is microservices for user registration from simpleTeam.
+ * This is microservices for user registration from simpleteam.
  */
 @SpringBootApplication
 public class RegistrationServiceApplication {
