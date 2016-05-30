@@ -1,6 +1,9 @@
 package com.simpleteam.controllers;
 
+import com.simpleteam.utils.JmsMessageSender;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,9 @@ public class Registration {
      */
     private final Logger log = Logger.getLogger(Registration.class);
 
+    @Autowired
+    JmsMessageSender jmsSender;
+
     /**
      * Just redirect to '/registration'.
      *
@@ -30,6 +36,12 @@ public class Registration {
     @RequestMapping("/")
     public final String home() {
         log.info("redirect to '/photo' ");
+
+        // send to default destination
+//        jmsSender.send("hello JMS");
+
+        // send to a code specified destination
+        jmsSender.send(new ActiveMQQueue(), "hello Another Message");
 
         return "redirect:/registration";
     }
