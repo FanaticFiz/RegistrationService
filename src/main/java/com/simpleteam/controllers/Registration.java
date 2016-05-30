@@ -1,7 +1,6 @@
 package com.simpleteam.controllers;
 
-import com.simpleteam.utils.JmsMessageSender;
-import org.apache.activemq.command.ActiveMQQueue;
+import com.simpleteam.utils.SimpleMailSender;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,7 @@ public class Registration {
     private final Logger log = Logger.getLogger(Registration.class);
 
     @Autowired
-    JmsMessageSender jmsSender;
+    SimpleMailSender mailSender;
 
     /**
      * Just redirect to '/registration'.
@@ -35,13 +34,7 @@ public class Registration {
      */
     @RequestMapping("/")
     public final String home() {
-        log.info("redirect to '/photo' ");
-
-        // send to default destination
-//        jmsSender.send("hello JMS");
-
-        // send to a code specified destination
-        jmsSender.send(new ActiveMQQueue(), "hello Another Message");
+        log.info("redirect to '/registration' ");
 
         return "redirect:/registration";
     }
@@ -75,6 +68,10 @@ public class Registration {
                                      @RequestParam("password") final String pass) {
         log.info("RequestMethod POST. Email: " + email);
         log.info("Pass: " + pass);
+
+        mailSender.send(email,
+                "The best subject!",
+                "You have successfully create account on our site. Your password: " + pass);
 
         model.addAttribute("successRegistered", 1);
         return "registration";
