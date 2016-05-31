@@ -3,12 +3,7 @@ package com.simpleteam.jms;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
 
 /**
  * JMS Message sender.
@@ -36,10 +31,6 @@ public class MessageSender {
      */
     public void send(final String message) {
         log.info("Try send message: " + message);
-        jmsTemplate.send(new MessageCreator() {
-            public Message createMessage(final Session session) throws JMSException {
-                return session.createTextMessage(message);
-            }
-        });
+        jmsTemplate.send(session -> session.createTextMessage(message));
     }
 }

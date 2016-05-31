@@ -5,7 +5,6 @@ import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jms.core.JmsTemplate;
@@ -30,10 +29,9 @@ public class AppConfiguration {
     public DataSource dataSource() {
         //jdbc:hsqldb:mem:testdb
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.HSQL)
+        return builder.setType(EmbeddedDatabaseType.HSQL)
                 .addScript("db/create-db.sql")
                 .build();
-        return db;
     }
 
     /**
@@ -43,8 +41,7 @@ public class AppConfiguration {
      */
     @Bean
     public ActiveMQConnectionFactory connectionFactory() {
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        return connectionFactory;
+        return new ActiveMQConnectionFactory();
     }
 
     /**
