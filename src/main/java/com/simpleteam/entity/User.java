@@ -22,7 +22,7 @@ public class User {
     /**
      * Password.
      */
-    @Pattern(regexp = "(?=(.*\\d){2})(?=.*!)", message = "must contain at least 2 digits and one \"!\" symbol")
+    @Pattern(regexp = "((.*\\d){2})(.*)(!+)", message = "must contain at least 2 digits and one \"!\" symbol")
     private String password;
 
     /**
