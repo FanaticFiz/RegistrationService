@@ -29,7 +29,7 @@ public class HibernateValidationTest {
 
         assertEquals(1, constraintViolations.size());
         assertEquals(
-                "Password must contain at least 2 digits and one \"!\" symbol",
+                "must contain at least 2 digits and one \"!\" symbol",
                 constraintViolations.iterator().next().getMessage()
         );
     }

@@ -4,47 +4,93 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.Pattern;
 
+/**
+ * User.
+ */
 public class User {
-
+    /**
+     * Id.
+     */
     private int id;
 
+    /**
+     * Email.
+     */
     @Email
     private String email;
 
-    @Pattern(regexp = "(?=(.*\\d){2})(?=.*!)", message = "Password must contain at least 2 digits and one \"!\" symbol")
+    /**
+     * Password.
+     */
+    @Pattern(regexp = "(?=(.*\\d){2})(?=.*!)", message = "must contain at least 2 digits and one \"!\" symbol")
     private String password;
 
+    /**
+     * Confirmed - then user confirm yours newEmail.
+     */
     private boolean isConfirmed;
 
+    /**
+     * Getter.
+     * @return int
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    /**
+     * Setter.
+     * @param newId int
+     */
+    public void setId(final int newId) {
+        this.id = newId;
     }
 
+    /**
+     * Getter.
+     * @return String
+     */
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    /**
+     * Setter.
+     * @param newEmail String
+     */
+    public void setEmail(final String newEmail) {
+        this.email = newEmail;
     }
 
+    /**
+     * Getter.
+     * @return String
+     */
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    /**
+     * Setter.
+     * @param newPassword String
+     */
+    public void setPassword(final String newPassword) {
+        this.password = newPassword;
     }
 
+    /**
+     * Getter.
+     * @return bool
+     */
     public boolean isConfirmed() {
         return isConfirmed;
     }
 
-    public void setConfirmed(boolean confirmed) {
-        isConfirmed = confirmed;
+    /**
+     * Setter.
+     * @param newConfirmed bool
+     */
+    public void setConfirmed(final boolean newConfirmed) {
+        isConfirmed = newConfirmed;
     }
 }

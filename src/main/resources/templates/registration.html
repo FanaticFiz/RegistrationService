@@ -3,14 +3,23 @@
     <head>
         <object th:replace="fragments/head :: head" th:remove="tag"></object>
     </head>
-    <script type="text/javascript">
+    <script th:inline="javascript">
         $(document).ready(function(){
-            $("#regForm").hide();
-
-            $("#signup").click( function() {
+            var validationFailedMessage = [[${errorPass}]];
+            if (validationFailedMessage == null) {
+                $("#regForm").hide();
+                $("#signup").click( function() {
+                    $("#regForm").show();
+                    $("#signUpButton").hide();
+                });
+            } else {
                 $("#regForm").show();
                 $("#signUpButton").hide();
-            });
+                $("#passLabel").text("Password: " + validationFailedMessage);
+                $("#passLabel").css({
+                    'color' : 'red',
+                });
+            }
         });
     </script>
 
@@ -20,13 +29,15 @@
                 <div class="twelve column" id="signUpButton">
                     <input class="button-primary u-pull-right" id="signup" type="button" value="Sign up"/>
                 </div>
-                <form class="twelve column" id="regForm" action="/registration" method="POST">
+                <form class="twelve column" id="regForm" action="/registration" method="POST" th:object="${user}">
                     <h2 style="text-align: center; padding-top: 50px">Registration</h2>
                     <div class="six columns offset-by-three">
                         <label for="EmailInput">Your email:</label>
-                        <input class="u-full-width" type="email" placeholder="test@gmail.com" id="EmailInput" required="true" name="email"/>
-                        <label for="PassInput">Password:</label>
-                        <input class="u-full-width" type="password" required="true" placeholder="test@gmail.com" id="PassInput" name="password"/>
+                        <input class="u-full-width" type="email" placeholder="test@gmail.com" id="EmailInput" required="true"
+                               name="email" th:field="*{email}"/>
+                        <label for="PassInput" id="passLabel">Password:</label>
+                        <input class="u-full-width" type="password" required="true" placeholder="test@gmail.com" id="PassInput"
+                               name="password" th:field="*{password}"/>
                         <input class="button-primary u-full-width" type="submit" value="Create my account"/>
                     </div>
                 </form>
