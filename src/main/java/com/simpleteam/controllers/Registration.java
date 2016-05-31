@@ -1,6 +1,6 @@
 package com.simpleteam.controllers;
 
-import com.simpleteam.utils.SimpleMailSender;
+import com.simpleteam.jms.MessageSender;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +24,11 @@ public class Registration {
      */
     private final Logger log = Logger.getLogger(Registration.class);
 
+    /**
+     * Use message sender.
+     */
     @Autowired
-    SimpleMailSender mailSender;
+    private MessageSender simpleMessageSender;
 
     /**
      * Just redirect to '/registration'.
@@ -56,9 +59,9 @@ public class Registration {
     /**
      * Catches POST request to '/registration'.
      *
-     * @param model Map for add attributes
-     * @param email email
-     * @param pass password
+     * @param model        Map for add attributes
+     * @param email        email
+     * @param pass         password
      * @param redirectAttr for send attribute to another page
      * @return String for ViewResolver, for find specific view.
      */
@@ -66,12 +69,10 @@ public class Registration {
     public final String photoHandler(final Model model, final RedirectAttributes redirectAttr,
                                      @RequestParam("email") final String email,
                                      @RequestParam("password") final String pass) {
-        log.info("RequestMethod POST. Email: " + email);
-        log.info("Pass: " + pass);
+        log.info(String.format("RequestMethod POST. Email: %s Password: %s", email, pass));
 
-        mailSender.send(email,
-                "The best subject!",
-                "You have successfully create account on our site. Your password: " + pass);
+        simpleMessageSender.send(String.format("You have successfully create account with eMail: %s on our site."
+                + " Your password: %s", email, pass));
 
         model.addAttribute("successRegistered", 1);
         return "registration";
