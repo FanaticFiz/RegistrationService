@@ -38,13 +38,13 @@ public class SimpleMailSender {
      */
     public void send(final String recipient, final String subject, final String text) {
         try {
+            log.info("Try send email to: " + recipient);
             Message message = new MimeMessage(getSession());
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject(subject);
             message.setText(text);
 
             Transport.send(message);
-
             log.info("Success sending email.");
         } catch (MessagingException e) {
             log.info("Failed send email.", e);

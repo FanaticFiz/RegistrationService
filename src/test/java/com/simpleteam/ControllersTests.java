@@ -77,7 +77,7 @@ public class ControllersTests {
                 .perform(get("/confirm/{code}", "asdfalksdjfh")
                         .accept(MediaType.TEXT_HTML))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/success"));
+                .andExpect(view().name("redirect:/error"));
     }
 
 }

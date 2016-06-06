@@ -5,6 +5,7 @@
 
 ## File-based project format:
 *.iws
+*.imp
 
 # IntelliJ
 /out/

@@ -2,36 +2,54 @@ package com.simpleteam.entity;
 
 import org.hibernate.validator.constraints.Email;
 
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 /**
- * User.
+ * User entity.
+ *
+ * @version 0.2
  */
+@Entity
+@Table(name = "users")
 public class User {
     /**
      * Id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /**
      * Email.
      */
     @Email
+    @Column(name = "email", unique = true)
     private String email;
 
     /**
      * Password.
      */
-    @Pattern(regexp = "(?=(.*\\d){2})(.*)(!+)", message = "must contain at least 2 digits and one \"!\" symbol")
+    @Pattern(regexp = "(?=(.*\\d){2})(.*)(!+)",
+            message = "Password must contain at least 2 digits and one \"!\" symbol")
+    @Column(name = "password", columnDefinition = "character varying(30)")
     private String password;
 
     /**
      * Confirmed - then user confirm yours newEmail.
      */
+    @Column(name = "is_confirmed")
     private boolean isConfirmed;
 
     /**
+     * UUID.
+     */
+    @Column
+    private String uuid;
+
+    /**
      * Getter.
+     *
      * @return int
      */
     public int getId() {
@@ -40,6 +58,7 @@ public class User {
 
     /**
      * Setter.
+     *
      * @param newId int
      */
     public void setId(final int newId) {
@@ -48,6 +67,7 @@ public class User {
 
     /**
      * Getter.
+     *
      * @return String
      */
     public String getEmail() {
@@ -56,6 +76,7 @@ public class User {
 
     /**
      * Setter.
+     *
      * @param newEmail String
      */
     public void setEmail(final String newEmail) {
@@ -64,6 +85,7 @@ public class User {
 
     /**
      * Getter.
+     *
      * @return String
      */
     public String getPassword() {
@@ -72,6 +94,7 @@ public class User {
 
     /**
      * Setter.
+     *
      * @param newPassword String
      */
     public void setPassword(final String newPassword) {
@@ -80,6 +103,7 @@ public class User {
 
     /**
      * Getter.
+     *
      * @return bool
      */
     public boolean isConfirmed() {
@@ -88,9 +112,29 @@ public class User {
 
     /**
      * Setter.
+     *
      * @param newConfirmed bool
      */
     public void setConfirmed(final boolean newConfirmed) {
         isConfirmed = newConfirmed;
     }
+
+    /**
+     * Getter.
+     *
+     * @return String UUID.
+     */
+    public String getUuid() {
+        return uuid;
+    }
+
+    /**
+     * Setter.
+     *
+     * @param newUUID String.
+     */
+    public void setUuid(final String newUUID) {
+        this.uuid = newUUID;
+    }
+
 }

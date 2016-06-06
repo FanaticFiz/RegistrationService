@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Registration service.
  *
- * This is microservices for user registration from simpleTeam.
  */
 @SpringBootApplication
 public class RegistrationServiceApplication {
@@ -19,10 +18,11 @@ public class RegistrationServiceApplication {
 
     /**
      * Start here.
-     * @param args not use any parameters.
+     * @param args Not use any parameters.
      */
     public static void main(final String[] args) {
 
         SpringApplication.run(RegistrationServiceApplication.class, args);
     }
+
 }

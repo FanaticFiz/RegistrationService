@@ -1,7 +1,8 @@
 package com.simpleteam.controllers;
 
 import com.simpleteam.entity.User;
-import com.simpleteam.jms.MessageSender;
+import com.simpleteam.repository.UserRepository;
+import com.simpleteam.utils.ProducerJMS;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Registration controller.
@@ -28,10 +32,16 @@ public class Registration {
     private final Logger log = Logger.getLogger(Registration.class);
 
     /**
-     * Use message sender.
+     * Use Repository.
      */
     @Autowired
-    private MessageSender simpleMessageSender;
+    private UserRepository userRepository;
+
+    /**
+     * Service to send message.
+     */
+    @Autowired
+    private ProducerJMS producerJMS;
 
     /**
      * Just redirect to '/registration'.
@@ -49,7 +59,7 @@ public class Registration {
      * Catches GET request to '/registration'.
      *
      * @param model Map for add attributes
-     * @param user Entity User
+     * @param user  Entity User
      * @return String for ViewResolver, for find specific view.
      */
     @RequestMapping(value = "/registration")
@@ -63,26 +73,44 @@ public class Registration {
     /**
      * Catches POST request to '/registration'.
      *
-     * @param model        Map for add attributes
-     * @param user         User
-     * @param redirectAttr for send attribute to another page
-     * @param bindingResult  BindingResult
+     * @param model         Map for add attributes
+     * @param user          User
+     * @param redirectAttr  for send attribute to another page
+     * @param bindingResult BindingResult
      * @return String for ViewResolver, for find specific view.
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public final String photoHandler(final Model model, final RedirectAttributes redirectAttr,
+    public final String registration(final Model model, final RedirectAttributes redirectAttr,
                                      @Valid final User user, final BindingResult bindingResult) {
         log.info(String.format("RequestMethod POST. Email: %s Password: %s", user.getEmail(), user.getPassword()));
 
         if (bindingResult.hasErrors()) {
-            log.info("Validation failed!");
+            log.debug("Validation failed!");
             model.addAttribute("errorPass", bindingResult.getAllErrors().get(0).getDefaultMessage());
             model.addAttribute("successRegistered", 0);
             return "registration";
         }
 
-        simpleMessageSender.send(String.format("You have successfully create account with eMail: %s on our site."
-                + " Your password: %s", user.getEmail(), user.getPassword()));
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            log.debug("User with email: " + user.getEmail() + " already exist!");
+            model.addAttribute("successRegistered", 0);
+            return "registration";
+        }
+
+        try {
+            log.debug("Try save user to DB");
+            user.setUuid(UUID.randomUUID().toString());
+            userRepository.save(user);
+
+            Map<String, String> message = new HashMap<>();
+            message.put("email", user.getEmail());
+            message.put("password", user.getPassword());
+            message.put("uuid", user.getUuid());
+            producerJMS.send(message);
+
+        } catch (Exception e) {
+            log.error("Failed", e);
+        }
 
         model.addAttribute("successRegistered", 1);
         return "registration";
