@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:replace="fragments/head :: head" th:remove="tag"></object>
+    <meta charset="UTF-8"/>
+</head>
+
+    <body>
+        <div class="row" style="text-align: center">
+            <h1>Thank you for registration!</h1>
+            <br />
+            <h3>You have succesfully created account on our site.</h3>
+            <h3 th:text="'You email is ' + ${email} + ' and your password end on ' + ${password}"></h3>
+            <br />
+            <h3>To confirm your account please click on this link</h3>
+            <a th:href="'http://localhost:8080/confirm/' + ${uuid}" th:text="'http://localhost:8080/confirm/' + ${uuid}">Link</a>
+        </div>
+    </body>
+
+</html>

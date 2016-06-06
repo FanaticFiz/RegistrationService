@@ -16,7 +16,9 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * Database config.
+ * Application configuration class.
+ *
+ * @version 0.3
  */
 @Configuration
 @EnableTransactionManagement

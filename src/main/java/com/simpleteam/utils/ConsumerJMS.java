@@ -30,13 +30,15 @@ public class ConsumerJMS {
      */
     @JmsListener(destination = "email_queue")
     public void consumeMessage(final Map<String, String> consumedMessage) {
-        log.info("Consume consumedMessage +++");
-        Map<String, String> message = (Map<String, String>) consumedMessage;
+        log.info("Consume message...");
 
-        simpleMailSender.send(
-                message.get("email"),
-                "subject",
-                "Your password: " + message.get("password") + "<br>"
-                        + "Link: localhost:8080/confirm/" + message.get("uuid"));
+        Map<String, String> message = (Map<String, String>) consumedMessage;
+        simpleMailSender.sendMail(message);
+
+//        simpleMailSender.send(
+//                message.get("email"),
+//                "subject",
+//                "Your password: " + message.get("password") + "<br>"
+//                        + "Link: localhost:8080/confirm/" + message.get("uuid"));
     }
 }

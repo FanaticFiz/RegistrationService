@@ -19,7 +19,7 @@ public class ProducerJMS {
     private final Logger log = org.apache.log4j.Logger.getLogger(ProducerJMS.class);
 
     /**
-     * JmsTemlate.
+     * JmsTemplate.
      */
     @Autowired
     private JmsTemplate jmsTemplate;
